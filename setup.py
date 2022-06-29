@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
 import setuptools
-import reader
+import new_reader
 
 with open("README.md", "r") as fh:
     readme = fh.read()
 
 setuptools.setup(
-    name="reader",
-    version=reader.version(),
+    name="new_reader",
+    version=new_reader.version(),
     author="Adrian",
     author_email="spam@iodisco.com",
     description="Read http(s), multicast, and udp streams like files",
     long_description=readme,
     long_description_content_type="text/markdown",
-    url="https://github.com/futzu/reader",
+    url="https://github.com/futzu/new_reader",
     packages=setuptools.find_packages(),
     install_requires=[
       ],
