@@ -1,5 +1,6 @@
 """
-The reader function
+new_reader.py
+Home of the reader function
 """
 
 import socket
@@ -12,7 +13,7 @@ import urllib.request
 
 MAJOR = "0"
 MINOR = "0"
-MAINTAINENCE = "3"
+MAINTAINENCE = "5"
 
 
 def version():
