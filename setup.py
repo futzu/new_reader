@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import setuptools
-import x9k3
+import reader
 
 with open("README.md", "r") as fh:
     readme = fh.read()
