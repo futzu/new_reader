@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+
+import setuptools
+import x9k3
+
+with open("README.md", "r") as fh:
+    readme = fh.read()
+
+setuptools.setup(
+    name="reader",
+    version=reader.version(),
+    author="Adrian",
+    author_email="spam@iodisco.com",
+    description="Read http(s), multicast, and udp streams like files",
+    long_description=readme,
+    long_description_content_type="text/markdown",
+    url="https://github.com/futzu/reader",
+    packages=setuptools.find_packages(),
+    install_requires=[
+      ],
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: Implementation :: PyPy",
+        "Programming Language :: Python :: Implementation :: CPython",
+    ],
+    python_requires=">=3.6",
+)
