@@ -1,7 +1,7 @@
 # reader
 read multicast, udp and http(s) like files
 
-  reader returns an open file handle.
+  new_reader returns an open file handle.
 ```lua
     stdin:              cat video.ts | gumd
     files:              "/home/you/video.ts"
@@ -12,7 +12,7 @@ read multicast, udp and http(s) like files
   
   Use like:
 ```smalltalk
-    from reader import reader
+    from new_reader import reader
 
     with reader("udp://@227.1.3.10:4310") as data:
         data.read(8192)
