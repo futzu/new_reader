@@ -1,5 +1,5 @@
 """
-reader.__init__.py
+new_reader.__init__.py
 """
 
-from .reader import reader, version, version_number
+from .new_reader import reader, version, version_number
