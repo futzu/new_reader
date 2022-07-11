@@ -9,11 +9,9 @@ import sys
 import urllib.request
 
 
-
-
 MAJOR = "0"
 MINOR = "0"
-MAINTAINENCE = "5"
+MAINTAINENCE = "7"
 
 
 def version():
@@ -129,7 +127,7 @@ def _open_udp(uri):
     """
     udp://1.2.3.4:5555
     """
-    udp_ip, udp_port = (uri.split("udp://")[1]).split(":")
+    udp_ip, udp_port = (uri.split("udp://")[1]).rsplit(":")
     udp_port = int(udp_port)
     udp_sock = _mk_udp_sock(udp_ip, udp_port)
     return _read_stream(udp_sock)
@@ -139,7 +137,7 @@ def _open_mcast(uri):
     """
     udp://@227.1.3.10:4310
     """
-    mcast_grp, mcast_port = (uri.split("udp://@")[1]).split(":")
+    mcast_grp, mcast_port = (uri.split("udp://@")[1]).rsplit(":")
     mcast_port = int(mcast_port)
     mcast_sock = _mk_mcast_sock(mcast_grp, mcast_port)
     return _read_stream(mcast_sock)
