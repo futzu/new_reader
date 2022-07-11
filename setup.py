@@ -15,9 +15,8 @@ setuptools.setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     url="https://github.com/futzu/new_reader",
-    packages=setuptools.find_packages(),
-    install_requires=[
-      ],
+    py_modules=["new_reader"],
+    platforms="all",
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
