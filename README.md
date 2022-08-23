@@ -1,7 +1,7 @@
 # reader
+
 read multicast, udp and http(s) like files
 
-  new_reader returns an open file handle.
 ```lua
     stdin:              cat video.ts | gumd
     files:              "/home/you/video.ts"
@@ -9,6 +9,10 @@ read multicast, udp and http(s) like files
     udp urls:           "udp://1.2.3.4:5555"
     multicast urls:     "udp://@227.1.3.10:4310"
   ```
+  
+  ![image](https://user-images.githubusercontent.com/52701496/186197793-5c58fd2b-db06-4c11-8b94-d5850162be44.png)
+
+  
   
   Use like:
 ```smalltalk
