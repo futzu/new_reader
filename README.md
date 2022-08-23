@@ -1,6 +1,6 @@
-# reader
+# `reader`
 
-read multicast, udp and http(s) like files
+    read multicast, udp and http(s) like files
 
 ```lua
     stdin:              cat video.ts | gumd
@@ -14,7 +14,7 @@ read multicast, udp and http(s) like files
 
   
   
-  Use like:
+  `Use like`:
 ```smalltalk
     from new_reader import reader
 
