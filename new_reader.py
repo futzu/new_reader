@@ -11,7 +11,7 @@ import urllib.request
 
 MAJOR = "0"
 MINOR = "0"
-MAINTAINENCE = "9"
+MAINTAINENCE = "99"
 
 
 def version():
@@ -87,8 +87,22 @@ def _read_stream(sock):
     return sock.makefile(mode="rb")
 
 
+def double_rcvbuf(sock):
+    """
+    double_rcvbuf doubles socket.SO_RCVBUF
+    until it errors
+    """
+    rcvbuf_size = sock.getsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF)
+    while True:
+        try:
+            rcvbuf_size += rcvbuf_size
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, rcvbuf_size)
+        except:
+            break
+
+
 def _udp_sock_opts(sock):
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 90000000)
+    double_rcvbuf(sock)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     if hasattr(socket, "SO_REUSEPORT"):
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
