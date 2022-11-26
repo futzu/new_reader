@@ -1,4 +1,4 @@
-# `reader`
+# `new_reader`
 
     read multicast, udp and http(s) like files.
     
@@ -13,7 +13,7 @@
   ### UDP and Multicast
   * for UDP and Multicast, reader will set socket.SO_RCVBUF to twice the maximum value set in the OS. 
     * On OpenBSD 
-    ```lua
+    ```sh
     sysctl net.inet.udp.recvspace
     ```
     * On Linux
@@ -24,20 +24,35 @@
     ```lua
      I have no idea.
     ```
-  ![image](https://user-images.githubusercontent.com/52701496/186197793-5c58fd2b-db06-4c11-8b94-d5850162be44.png)
 
   
-  
-  `Use like`:
+## Examples
+
+- [x] Files
+```lua
+    from new_reader import reader
+
+    with reader("/home/you/video.ts") as data:
+        fu = data.read()
+```
+- [x] HTTP(S)
+```lua
+    from new_reader import reader
+
+    with reader("https://futzu.com/xaa.ts") as data:
+        fu = data.read()
+```
+- [x] Multicast
 ```smalltalk
     from new_reader import reader
 
     with reader("udp://@227.1.3.10:4310") as data:
         data.read(8192)
-        
-    with reader("/home/you/video.ts") as data:
-        fu = data.read()
-        
+```
+- [x] UDP
+```lua
+    from new_reader import reader
+
     udp_data =reader("udp://1.2.3.4:5555")
     chunks = [udp_data.read(188) for i in range(0,1024)]
     udp_data.close()
