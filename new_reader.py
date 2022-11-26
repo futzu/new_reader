@@ -11,7 +11,7 @@ import urllib.request
 
 MAJOR = "0"
 MINOR = "1"
-MAINTAINENCE = "01"
+MAINTAINENCE = "03"
 
 
 def version():
@@ -47,8 +47,6 @@ def reader(uri):
     udp urls:           "udp://1.2.3.4:5555"
     multicast urls:     "udp://@227.1.3.10:4310"
 
-
-
     Use like:
 
     with reader("udp://@227.1.3.10:4310") as data:
@@ -60,8 +58,6 @@ def reader(uri):
     udp_data =reader("udp://1.2.3.4:5555")
     chunks = [udp_data.read(188) for i in range(0,1024)]
     udp_data.close()
-
-
 
     """
     # read from stdin
@@ -100,57 +96,53 @@ def double_rcvbuf(sock):
         except:
             break
 
-def _udp_sock_opts(sock):
+
+def _mk_sock():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     double_rcvbuf(sock)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     if hasattr(socket, "SO_REUSEPORT"):
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+    return sock
 
 
 def _mk_udp_sock(udp_ip, udp_port):
     """
     udp socket setup
     """
-    # sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-
-    _udp_sock_opts(sock)
-    sock.bind((udp_ip, udp_port))
-    return sock
+    udp_sock = _mk_sock()
+    udp_sock.bind((udp_ip, udp_port))
+    return _read_stream(udp_sock)
 
 
 def _mk_mcast_sock(mcast_grp, mcast_port):
     """
     multicast socket setup
     """
-    mcast_host ="0.0.0.0"
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    _udp_sock_opts(sock)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    sock.setsockopt(
+    mcast_host = "0.0.0.0"
+    mcast_sock = _mk_sock()
+    mcast_sock.setsockopt(
         socket.IPPROTO_IP,
         socket.IP_ADD_MEMBERSHIP,
         socket.inet_aton(mcast_grp) + socket.inet_aton(mcast_host),
     )
-    sock.bind((mcast_host,mcast_port))
-    return sock
+    mcast_sock.bind((mcast_host, mcast_port))
+    return _read_stream(mcast_sock)
 
 
 def _open_udp(uri):
     """
     udp://1.2.3.4:5555
     """
-    udp_ip, udp_port = (uri.split("udp://")[1]).rsplit(":",1)
+    udp_ip, udp_port = (uri.split("udp://")[1]).rsplit(":", 1)
     udp_port = int(udp_port)
-    udp_sock = _mk_udp_sock(udp_ip, udp_port)
-    return _read_stream(udp_sock)
+    return _mk_udp_sock(udp_ip, udp_port)
 
 
 def _open_mcast(uri):
     """
     udp://@227.1.3.10:4310
     """
-    mcast_grp, mcast_port = (uri.split("udp://@")[1]).rsplit(":",1)
+    mcast_grp, mcast_port = (uri.split("udp://@")[1]).rsplit(":", 1)
     mcast_port = int(mcast_port)
-    mcast_sock = _mk_mcast_sock(mcast_grp, mcast_port)
-    return _read_stream(mcast_sock)
+    return _mk_mcast_sock(mcast_grp, mcast_port)
