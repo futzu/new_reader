@@ -39,8 +39,14 @@ b'G@\x11\x10'
 ```js
     from new_reader import reader
 
-    with reader("https://futzu.com/xaa.ts") as data:
-        fu = data.read()
+    with reader('http://iodisco.com/') as disco:
+        disco.read()
+
+    # Add http headers like this 
+    
+    with reader('http://iodisco.com/',headers={"myHeader":"DOOM"}) as doom:
+        doom.read()
+
 ```
 - [x] `Multicast`
 ```smalltalk
