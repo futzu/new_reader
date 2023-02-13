@@ -11,7 +11,7 @@ import urllib.request
 
 MAJOR = "0"
 MINOR = "1"
-MAINTAINENCE = "03"
+MAINTAINENCE = "05"
 
 
 def version():
@@ -38,16 +38,23 @@ def version_number():
     return int(f"{MAJOR}{MINOR}{MAINTAINENCE}")
 
 
-def reader(uri):
+def reader(uri, headers={}):
     """
     reader returns an open file handle.
     stdin:              cat video.ts | gumd
     files:              "/home/you/video.ts"
     http(s) urls:       "https://example.com/vid.ts"
+     (http headers can be added by setting headers)
     udp urls:           "udp://1.2.3.4:5555"
     multicast urls:     "udp://@227.1.3.10:4310"
 
     Use like:
+
+    with reader('http://iodisco.com/') as disco:
+        disco.read()
+
+    with reader('http://iodisco.com/',headers={"myHeader":"DOOM"}) as doom:
+        doom.read()
 
     with reader("udp://@227.1.3.10:4310") as data:
         data.read(8192)
@@ -71,7 +78,8 @@ def reader(uri):
         return _open_udp(uri)
     # Http(s)
     if uri.startswith("http"):
-        return urllib.request.urlopen(uri)
+        req = urllib.request.Request(uri,headers=headers)
+        return urllib.requesturlopen(req)
     # File
     return open(uri, "rb")
 
