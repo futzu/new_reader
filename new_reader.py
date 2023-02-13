@@ -11,7 +11,7 @@ import urllib.request
 
 MAJOR = "0"
 MINOR = "1"
-MAINTAINENCE = "05"
+MAINTAINENCE = "07"
 
 
 def version():
@@ -79,7 +79,7 @@ def reader(uri, headers={}):
     # Http(s)
     if uri.startswith("http"):
         req = urllib.request.Request(uri,headers=headers)
-        return urllib.requesturlopen(req)
+        return urllib.request.urlopen(req)
     # File
     return open(uri, "rb")
 
