@@ -11,7 +11,8 @@ rdr.read()
 
 ![image](https://user-images.githubusercontent.com/52701496/205797792-aee34f1c-039c-427b-87f4-709c3b6a8aa2.png)
 
-## new_reader is used by [`threefive`](https://github.com/futzu/threefive), [`x9k3`](https://github.com/futzu/x9k3), [`gumd`](https://github.com/futzu/gumd), [`m3ufu`](https://github.com/futzu/m3ufu), [`kabuki`](https://github.com/futzu/kabuki), and [`iframes`](https://github.com/futzu/iframes).
+## new_reader is used by [`threefive`](https://github.com/futzu/threefive), [`x9k3`](https://github.com/futzu/x9k3), [`gumd`](https://github.com/futzu/gumd), [`m3ufu`](https://github.com/futzu/m3ufu), [`superkabuki`](https://github.com/futzu/superkabuki), [`iframes`](https://github.com/futzu/iframes) , [`umzz`](https://github.com/futzu/umzz),[`showcues`](https://github.com/futzu/showcues),[`six2scte35`](https://github.com/futzu/six2scte35)and [`sideways`](https://github.com/futzu/sideways).
+
  
  ## How is `new_reader.reader` used?
  ```js
