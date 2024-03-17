@@ -8,10 +8,11 @@ import struct
 import sys
 import urllib.request
 
+TIMEOUT = 60
 
 MAJOR = "0"
 MINOR = "1"
-MAINTAINENCE = "07"
+MAINTAINENCE = "09"
 
 
 def version():
@@ -78,7 +79,7 @@ def reader(uri, headers={}):
         return _open_udp(uri)
     # Http(s)
     if uri.startswith("http"):
-        req = urllib.request.Request(uri,headers=headers)
+        req = urllib.request.Request(uri, headers=headers)
         return urllib.request.urlopen(req)
     # File
     return open(uri, "rb")
@@ -97,11 +98,13 @@ def double_rcvbuf(sock):
     until it errors
     """
     rcvbuf_size = sock.getsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF)
+    print(f"\nReading rcvbuf_size of {rcvbuf_size}", file=sys.stderr)
     while True:
         try:
             rcvbuf_size += rcvbuf_size
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, rcvbuf_size)
         except:
+            print(f"Setting rcvbuf_size to {rcvbuf_size}\n\n", file=sys.stderr)
             break
 
 
@@ -111,6 +114,7 @@ def _mk_sock():
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     if hasattr(socket, "SO_REUSEPORT"):
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+    sock.settimeout(TIMEOUT)
     return sock
 
 
