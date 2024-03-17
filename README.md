@@ -65,7 +65,8 @@ b'G@\x11\x10'
     udp_data.close()
 ```
   ### `UDP` and `Multicast`
-  * reader will set `socket.SO_RCVBUF` to twice the maximum value set in the OS for `UDP` and `Multicast`.
+  * reader will set `socket.SO_RCVBUF` to the maximum value allowed by the OS for `UDP` and `Multicast`.
+  * `socket.SO_RCVBUF` can also be set like this:
     * On `OpenBSD` 
     ```js
     sysctl net.inet.udp.recvspace
