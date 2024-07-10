@@ -7,7 +7,8 @@ rdr = reader('udp://@235.35.3.5:3535')
 rdr.read()
 ```
   
-## latest version is `0`.`1`.`9`  
+## latest version is `0`.`1`.`11`  
+* Critical Fix for Multicast
 
 ![image](https://user-images.githubusercontent.com/52701496/205797792-aee34f1c-039c-427b-87f4-709c3b6a8aa2.png)
 
