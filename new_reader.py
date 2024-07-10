@@ -2,17 +2,17 @@
 new_reader.py
 Home of the reader function
 """
-
 import socket
 import struct
 import sys
 import urllib.request
 
-TIMEOUT = 60
 
 MAJOR = "0"
 MINOR = "1"
-MAINTAINENCE = "09"
+MAINTAINENCE = "11"
+
+TIMEOUT = 60
 
 
 def version():
@@ -114,7 +114,6 @@ def _mk_sock():
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     if hasattr(socket, "SO_REUSEPORT"):
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
-    sock.settimeout(TIMEOUT)
     return sock
 
 
@@ -125,21 +124,6 @@ def _mk_udp_sock(udp_ip, udp_port):
     udp_sock = _mk_sock()
     udp_sock.bind((udp_ip, udp_port))
     return _read_stream(udp_sock)
-
-
-def _mk_mcast_sock(mcast_grp, mcast_port):
-    """
-    multicast socket setup
-    """
-    mcast_host = "0.0.0.0"
-    mcast_sock = _mk_sock()
-    mcast_sock.setsockopt(
-        socket.IPPROTO_IP,
-        socket.IP_ADD_MEMBERSHIP,
-        socket.inet_aton(mcast_grp) + socket.inet_aton(mcast_host),
-    )
-    mcast_sock.bind((mcast_host, mcast_port))
-    return _read_stream(mcast_sock)
 
 
 def _open_udp(uri):
@@ -155,6 +139,18 @@ def _open_mcast(uri):
     """
     udp://@227.1.3.10:4310
     """
-    mcast_grp, mcast_port = (uri.split("udp://@")[1]).rsplit(":", 1)
-    mcast_port = int(mcast_port)
-    return _mk_mcast_sock(mcast_grp, mcast_port)
+    listen_ip = "0.0.0.0"
+    address, port = (uri.split("udp://@")[1]).rsplit(":", 1)
+    port = int(port)
+    sock = _mk_sock()
+    sock.bind((address, port))
+    sock.setsockopt(
+        socket.IPPROTO_IP, socket.IP_MULTICAST_IF, socket.inet_aton(listen_ip)
+    )
+    sock.setsockopt(
+        socket.IPPROTO_IP,
+        socket.IP_ADD_MEMBERSHIP,
+        socket.inet_aton(address) + socket.inet_aton(listen_ip),
+    )
+    sock.settimeout(TIMEOUT)
+    return _read_stream(sock)
