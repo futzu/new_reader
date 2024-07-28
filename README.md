@@ -74,7 +74,7 @@ b'G@\x11\x10'
     ```
     * On `Linux`
     ```js
-    sysctl net.core.rmem_max
+      sysctl -w net.core.rmem_max=6815744
     ```
     * On `Windows`
     ```js
