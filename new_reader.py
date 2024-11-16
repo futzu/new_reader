@@ -2,6 +2,7 @@
 new_reader.py
 Home of the reader function
 """
+
 import socket
 import struct
 import sys
@@ -139,18 +140,21 @@ def _open_mcast(uri):
     """
     udp://@227.1.3.10:4310
     """
-    listen_ip = "0.0.0.0"
-    address, port = (uri.split("udp://@")[1]).rsplit(":", 1)
-    port = int(port)
-    sock = _mk_sock()
-    sock.bind((address, port))
-    sock.setsockopt(
-        socket.IPPROTO_IP, socket.IP_MULTICAST_IF, socket.inet_aton(listen_ip)
-    )
-    sock.setsockopt(
-        socket.IPPROTO_IP,
+
+    class Socked(socket.socket):
+        def read(self, bites):
+            return self.recv(bites)
+
+    interface_ip = "0.0.0.0"
+    multicast_group, port = (uri.split("udp://@")[1]).rsplit(":", 1)
+    multicast_port = int(port)
+    socked = Socked(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    socked.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, struct.pack("b", 32))
+    socked.bind(("", multicast_port))
+    socked.setsockopt(
+        socket.SOL_IP,
         socket.IP_ADD_MEMBERSHIP,
-        socket.inet_aton(address) + socket.inet_aton(listen_ip),
+        socket.inet_aton(multicast_group) + socket.inet_aton(interface_ip),
     )
-    sock.settimeout(TIMEOUT)
-    return _read_stream(sock)
+    socked.settimeout(TIMEOUT)
+    return socked
